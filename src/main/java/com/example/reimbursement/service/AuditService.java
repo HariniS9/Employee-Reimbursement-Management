@@ -5,6 +5,7 @@ import com.example.reimbursement.repository.ReimbursementAuditRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AuditService {
@@ -16,6 +17,11 @@ public class AuditService {
             ReimbursementAuditRepository repository) {
 
         this.repository = repository;
+    }
+
+    public List<ReimbursementAuditLog> getAllLogs() {
+
+        return repository.findAll();
     }
 
     public void log(

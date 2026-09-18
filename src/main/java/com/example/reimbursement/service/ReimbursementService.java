@@ -118,4 +118,11 @@ public class ReimbursementService {
 
         return repository.findByStatus(status);
     }
+
+    public List<Reimbursement> getByAmount(
+            Double amount) {
+
+        return repository.findByAmountGreaterThan(
+                amount);
+    }
 }

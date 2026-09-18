@@ -2,6 +2,8 @@ package com.example.reimbursement.controller;
 
 import com.example.reimbursement.dto.ReimbursementRequest;
 import com.example.reimbursement.entity.Reimbursement;
+import com.example.reimbursement.entity.ReimbursementAuditLog;
+import com.example.reimbursement.service.AuditService;
 import com.example.reimbursement.service.ReimbursementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +15,17 @@ import java.util.List;
 public class ReimbursementController {
 
     private final ReimbursementService reimbursementService;
+    private final AuditService auditService;
 
     public ReimbursementController(
-            ReimbursementService reimbursementService) {
+            ReimbursementService reimbursementService,
+            AuditService auditService) {
 
-        this.reimbursementService = reimbursementService;
+        this.reimbursementService =
+                reimbursementService;
+
+        this.auditService =
+                auditService;
     }
 
     @PostMapping
@@ -42,6 +50,24 @@ public class ReimbursementController {
 
         return ResponseEntity.ok(
                 reimbursementService.getById(id));
+    }
+
+    @GetMapping("/amount/{amount}")
+    public ResponseEntity<List<Reimbursement>>
+    getByAmount(
+            @PathVariable Double amount) {
+
+        return ResponseEntity.ok(
+                reimbursementService
+                        .getByAmount(amount));
+    }
+
+    @GetMapping("/audit-logs")
+    public ResponseEntity<List<ReimbursementAuditLog>>
+    getAuditLogs() {
+
+        return ResponseEntity.ok(
+                auditService.getAllLogs());
     }
 
     @PutMapping("/{id}/approve")
