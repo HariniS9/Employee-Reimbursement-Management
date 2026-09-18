@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class ReimbursementAuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =
+            GenerationType.IDENTITY)
     private Long id;
 
     private Long reimbursementId;

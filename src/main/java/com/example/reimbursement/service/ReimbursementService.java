@@ -12,13 +12,16 @@ public class ReimbursementService {
 
     private final ReimbursementRepository repository;
     private final ApprovalService approvalService;
+    private final AuditService auditService;
 
     public ReimbursementService(
             ReimbursementRepository repository,
-            ApprovalService approvalService) {
+            ApprovalService approvalService,
+            AuditService auditService) {
 
         this.repository = repository;
         this.approvalService = approvalService;
+        this.auditService = auditService;
     }
 
     public Reimbursement createReimbursement(
@@ -43,8 +46,16 @@ public class ReimbursementService {
                 approvalService.determineStatus(
                         request.getAmount()));
 
-        return repository.save(
-                reimbursement);
+        Reimbursement saved =
+                repository.save(
+                        reimbursement);
+
+        auditService.log(
+                saved.getId(),
+                "SUBMITTED",
+                "REST");
+
+        return saved;
     }
 
     public List<Reimbursement> getAll() {
@@ -69,8 +80,16 @@ public class ReimbursementService {
         reimbursement.setStatus(
                 "APPROVED");
 
-        return repository.save(
-                reimbursement);
+        Reimbursement updated =
+                repository.save(
+                        reimbursement);
+
+        auditService.log(
+                updated.getId(),
+                "APPROVED",
+                "REST");
+
+        return updated;
     }
 
     public Reimbursement rejectReimbursement(
@@ -82,8 +101,16 @@ public class ReimbursementService {
         reimbursement.setStatus(
                 "REJECTED");
 
-        return repository.save(
-                reimbursement);
+        Reimbursement updated =
+                repository.save(
+                        reimbursement);
+
+        auditService.log(
+                updated.getId(),
+                "REJECTED",
+                "REST");
+
+        return updated;
     }
 
     public List<Reimbursement> getByStatus(

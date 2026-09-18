@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReimbursementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ReimbursementApplication.class, args);
-	}
 
+		SpringApplication.run(
+				ReimbursementApplication.class,
+				args);
+	}
 }
