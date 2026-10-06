@@ -76,6 +76,7 @@ public class ReimbursementController {
 
         return ResponseEntity.ok(
                 reimbursementService.approveReimbursement(id));
+
     }
 
     @PutMapping("/{id}/reject")
@@ -83,7 +84,8 @@ public class ReimbursementController {
             @PathVariable Long id) {
 
         return ResponseEntity.ok(
-                reimbursementService.rejectReimbursement(id));
+                reimbursementService.rejectReimbursement(id)
+        );
     }
 
     @GetMapping("/status/{status}")
